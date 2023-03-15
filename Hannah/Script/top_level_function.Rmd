@@ -1,0 +1,47 @@
+---
+title: "top_levels_function"
+author: "Hannah Merges"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      warning = FALSE, 
+                      message = FALSE)
+```
+
+## Learning how to use the top_levels() function in the janitor package  
+top_levels() is helpful to look at a large dataset and see which values or variables are most frequent. You can also ask R to specify how many "top levels" you want to see.  
+For example, let's say we have a dataset with:  
+-  1,1,1,2,3,3,3,3,3,4,5
+
+When you use the top_level() function, R would tell you that you the value 3 is the most common within the dataset and if you wanted to specify what the top 2 most common values were, R would include 3 and 1.  
+
+Pretty cool! 
+
+Let's try with some actual code and data now :) 
+
+```{r}
+library(palmerpenguins)
+library(janitor)
+
+#top_levels(penguins$species, 2)
+
+??top_levels
+```
+
+## Some notes to consider:  
+-  you can only use top_levels() with factors! It will not work as a numeric value 
+-  make sure to install the janitor package and then load the library before trying to use top_levels() function
+-  the category must also have at least 3 levels 
+-  this warning message means there is an overlap in the top and bottom groups - use a different dataset for example 
+
+
+
+
+
+
+
+
+
