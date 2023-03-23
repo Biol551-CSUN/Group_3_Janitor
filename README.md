@@ -8,7 +8,7 @@ In this repository, you will find information about the package known as *Janito
  Group members are: 
  1. Hannah Merges
  2. Lipi Kalpesh Patel
- 3. Marisa Macki
+ 3. Marisa Mackie
  4. Nicole Ayala
  
  
@@ -23,7 +23,7 @@ In the real world, most data sets are not as organized as we would like them to 
 - get_dupes() - discussed by Marisa
 - get_obe_to_one() - discussed by Lipi
 
-### *Some other exciting functions *Janitor* has to offer*
+### *Some other exciting functions **Janitor** has to offer*
 - [Download this cheatsheet on janitor](https://about.gitlab.com/images/press/git-cheat-sheet.pdf)
 - [More in-depth info about janitor](https://cran.r-project.org/web/packages/janitor/janitor.pdf)
 - [Janitor's major functions](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html)
