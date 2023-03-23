@@ -1,0 +1,37 @@
+---
+title: "test 3"
+author: "Nicole Ayala"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message =FALSE)
+```
+
+##  All about Janitor's function: tabyl()
+
+In data science, all analysts do is basically count several things, taking into consideration many factors. Base R's table() function has many limitations when it comes to piping as it does not accept data.frame inputs or output data.frames. Formatting is pretty difficult unlike using other software like excel or SPSS. So janitor's function: tabyl() makes it so much easier to organize all data.frames, inputs and outputs accordingly while following the forward pipe operator. 
+
+Tabyl() was actually built on dplyr and tidyr packages as well as works well with tidyverse. It produces frequency tables with 1-3 tables containing specific metadata so that is why adorn() functions are used alongside with tabyl(), yet it can work with other non-tabyl associated data.frames to format those as well.
+
+```{r}
+# LOAD THE LIBRARIES
+library(tidyverse)
+library(here)
+library(janitor)
+
+# LOAD THE DATA
+drugs<-read.csv(here("Nicole","Data","drugs.csv"))
+View(drugs)
+
+t1 <- drugs %>%
+tabyl(active_substance) # this table will only consider freq based on the variable active substance
+```
+
+##
