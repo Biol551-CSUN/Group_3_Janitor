@@ -33,39 +33,39 @@ drugs<-read.csv(here("Nicole","Data","drugs.csv"))
 glimpse(drugs)
 #View(drugs)
 
- medname <- drugs %>%  # looking at names
-  count(medicine_name) # count fo each medicine name
+drugs_df <- drugs %>%
+   filter(therapeutic_area == "Schizophrenia") # only want Schizophrenia data to be put inside my tabyl
+   head(drugs_df,10)
    
- activesubst <- drugs %>% # looking at substances
-  count(active_substance) # count of each active substance
- 
- theraparea <- drugs %>%
-   count(therapeutic_area)
+drugs <- drugs %>%
+   filter(decision_date>"2022") # only want the dates from 2023
+  head(drugs,15)
+
 ```
+```{r}
+drugs %>%
+  tabyl(category, authorisation_status, therapeutic_area, show_missing_levels = FALSE) %>%
+  adorn_totals("row") %>%
+  adorn_percentages("all") %>%
+  adorn_pct_formatting(digits = 1) %>%
+  adorn_ns %>%
+  adorn_title
+```
+
 
 
 ```{r}
 # FILTER THE DATA
   
-   therap_df <- drugs %>%
-  select(therapeutic_area, active_substance) %>%  # selecting two factors:active substance and therapeutic data
-  mutate(active_substance = str_to_sentence(active_substance)) # convert to sentence case
-   filter(.data = drugs, therapeutic_area =="Schizophrenia") # only want Schizophrenia data to be put inside my tabyl
- 
-semijoindrug<- drugs %>% 
-  semi_join(activesubst, by = "active_substance") %>%  # active substances specific to the disease I selected within the entire dataset including active susbstances
-  semi_join(therap_df, by = "therapeutic_area") %>% # tried out the semi joining of the therapeutic area and being filtered out to those  Schizophrenia only
-  count(active_substance, therapeutic_area) # wanna see the active substance given per therapeutic area/ disease
+t1 <- drugs %>%
+  
+   tabyl(decision_date,category,therapeutic_area,15)
 
-  t2 <- semijoindrug %>%
-    tabyl(active_substance, therapeutic_area)
-    adorn_totals("col") %>%
-    adorn_percentages("row") %>%
-    adorn_pct_formatting(digits=1) %>%
-    adorn_ns() %>%
-    adorn_title()
+ t1
+ 
+ 
     
-    t2
+
 ```
 ```{r}
 #t1 <- drugs %>%
@@ -84,15 +84,7 @@ FUN FACT: If N/As are present then tabyl() will make a separate percentages colu
 
 ### Now that we have a tabyl(), how do we format it in a way that only shows each active substance's name once but counts the total of each one. This is where the adorn() functions come into play to help us format the columns, rows, titles, etc exactly how we want them to look.
 
-```{r}
-semijoindrug %>%
-  tabyl(active_substance) %>%
-  adorn_totals("col") %>%
-  adorn_percentages("row") %>%
-  adorn_pct_formatting(digits=1) %>%
-  adorn_ns() %>%
-  adorn_title()
-```
+
 
 
 ##
