@@ -14,14 +14,14 @@ In this repository, you will find information about the package known as *Janito
  
 ### *The Importance of the Janitor Package*
 
-In the real world, most data sets are not as organized as we would like them to be, so packages like Janitor are extremely beneficial to be aware of as its main purpose is to clean up the data to make it more amenable and reproducible. It is also user friendly, meaning that a beginner and an advanced R user alike can use this package to make coding less of a struggle or hassle and more fun!
+In the real world, most data sets are not as organized as we would like them to be. Therefore, packages like Janitor are extremely beneficial to be aware of as its main purpose is to clean up the data, making any data set amenable and reproducible. It is also user friendly, meaning that a beginner and an advanced R user alike can use this package to make coding less of a struggle or hassle and more fun!
 
 ### *These will be the 5 functions that will be covered...*
 
 - top_levels() - discussed by Hannah
 - tabyl() & its adorn() features - discussed by Nicole
 - get_dupes() - discussed by Marisa
-- get_obe_to_one() - discussed by Lipi
+- get_one_to_one() - discussed by Lipi
 
 ### *Some other exciting functions **Janitor** has to offer*
 - [Download this cheatsheet on janitor](https://about.gitlab.com/images/press/git-cheat-sheet.pdf)
