@@ -24,7 +24,7 @@ In the real world, most data sets are not as organized as we would like them to 
 - get_one_to_one() - discussed by Lipi
 
 ### *Some other exciting functions **Janitor** has to offer*
-- [Download this cheatsheet on janitor](https://about.gitlab.com/images/press/git-cheat-sheet.pdf)
+- [Check out this article for more practice using janitor's functions](https://towardsdatascience.com/cleaning-and-exploring-data-with-the-janitor-package-ee4a3edf085e)
 - [More in-depth info about janitor](https://cran.r-project.org/web/packages/janitor/janitor.pdf)
 - [Janitor's major functions](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html)
 
