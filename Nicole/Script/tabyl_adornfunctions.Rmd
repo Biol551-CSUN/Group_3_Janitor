@@ -23,15 +23,76 @@ Tabyl() was actually built on dplyr and tidyr packages as well as works well wit
 ```{r}
 # LOAD THE LIBRARIES
 library(tidyverse)
+library(dplyr)
+library(tidyr)
 library(here)
 library(janitor)
 
 # LOAD THE DATA
 drugs<-read.csv(here("Nicole","Data","drugs.csv"))
-View(drugs)
+glimpse(drugs)
+#View(drugs)
 
-t1 <- drugs %>%
-tabyl(active_substance) # this table will only consider freq based on the variable active substance
+ medname <- drugs %>%  # looking at names
+  count(medicine_name) # count fo each medicine name
+   
+ activesubst <- drugs %>% # looking at substances
+  count(active_substance) # count of each active substance
+ 
+ theraparea <- drugs %>%
+   count(therapeutic_area)
 ```
+
+
+```{r}
+# FILTER THE DATA
+  
+   therap_df <- drugs %>%
+  select(therapeutic_area, active_substance) %>%  # selecting two factors:active substance and therapeutic data
+  mutate(active_substance = str_to_sentence(active_substance)) # convert to sentence case
+   filter(.data = drugs, therapeutic_area =="Schizophrenia") # only want Schizophrenia data to be put inside my tabyl
+ 
+semijoindrug<- drugs %>% 
+  semi_join(activesubst, by = "active_substance") %>%  # active substances specific to the disease I selected within the entire dataset including active susbstances
+  semi_join(therap_df, by = "therapeutic_area") %>% # tried out the semi joining of the therapeutic area and being filtered out to those  Schizophrenia only
+  count(active_substance, therapeutic_area) # wanna see the active substance given per therapeutic area/ disease
+
+  t2 <- semijoindrug %>%
+    tabyl(active_substance, therapeutic_area)
+    adorn_totals("col") %>%
+    adorn_percentages("row") %>%
+    adorn_pct_formatting(digits=1) %>%
+    adorn_ns() %>%
+    adorn_title()
+    
+    t2
+```
+```{r}
+#t1 <- drugs %>%
+    #tabyl(active_substance) # this table will only consider freq based on the variable active substance
+#t1  # this will have the entire list of active substances
+
+#t2 <- drugs %>% # table onyl considers few based on variable medicine _name
+#   tabyl(medicine_name)
+#t2 # this will only have the list of all the names of the medicines provided in the dataset
+
+# If N/As are present then tabyl() will make a separate percentages column
+
+
+```
+FUN FACT: If N/As are present then tabyl() will make a separate percentages column
+
+### Now that we have a tabyl(), how do we format it in a way that only shows each active substance's name once but counts the total of each one. This is where the adorn() functions come into play to help us format the columns, rows, titles, etc exactly how we want them to look.
+
+```{r}
+semijoindrug %>%
+  tabyl(active_substance) %>%
+  adorn_totals("col") %>%
+  adorn_percentages("row") %>%
+  adorn_pct_formatting(digits=1) %>%
+  adorn_ns() %>%
+  adorn_title()
+```
+
 
 ##
