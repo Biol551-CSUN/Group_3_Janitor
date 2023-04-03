@@ -1,0 +1,97 @@
+---
+title: "function: get_dupes()"
+author: "Marisa Mackie"
+date: "`r Sys.Date()`"
+output: html_document
+---
+## Get Duplicates
+One issue that we sometimes run into when working with datasets is the presence of **duplicate** pieces of data, or **"dupes."**  This means that the _same information_ is represented _more than once_ in the same dataset.
+
+Below is an example of data, with duplicates highlighted in red.
+
+![example of duplicate data](https://yodalearning.com/wp-content/uploads/4.-DATA-WITH-DUPLICATE-RECORDS.png)
+
+___________
+
+#### How do dupes happen?
+A few ways that duplicates can happen are via human error:
+
+**The user inputs the _same_ information in a _different way_**
+
+ * CSUN
+ * CSU Northridge
+ * Cal State University Northridge 
+  
+Often these might be _case sensitive_
+
+ * csun
+ * Csun
+ * CSUN 
+  
+**Typos**
+
+ * CSU Northridge
+ * CSU Notrhridge
+  
+ * 12200345000
+ * 12200354000
+  
+**User inputs data that is already there, i.e. they accidentally copy & pasted it twice**
+
+ * CSUN
+ * CSUN
+
+________
+
+#### What can I do about dupes?
+The first step in dealing with dupes is to identify them.
+
+The **Janitor** package has a useful function called **get_dupes()** that identifies all duplicate data for you.
+
+To demonstrate this, let's load in the **fruits_with_dupes** data.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# load libraries
+library(tidyverse)
+library(here)
+library(janitor)
+
+# load data
+fruits <- read_csv(here("Marisa","Data","fruits_with_dupes.csv"))
+
+view(fruits)
+
+
+```
+
+Now let's ask Janitor to get duplicates for us!
+
+You can input the data within the arguments of the function, or pipe to the function from the data.
+You can also specify which columns you are looking for in the data, for example, fruit and rating.
+
+```{r}
+# Returns duplicates from your data
+get_dupes(fruits)
+
+# Returns duplicates from your data
+fruits %>% get_dupes(fruit, rating)
+```
+
+As you can see, Janitor returns all the duplicate values for us, and even includes a variable **dupe_count** to tell us how many duplicate rows there are for each piece of data.
+
+
+However, _get_dupes()_ alone will only return exact duplicates of data. If there are misspellings or differences in user input as described previously, we wouldn't see them here.
+To find those, we can use _get_dupes()_ with other functions, such as _starts_with()_ from **dplyr**.
+
+For example, let's see if we can find any duplicates in the list for these fruits:
+cherry, peach, pomegranate, banana
+
+```{r}
+# NOT WORKING THE WAY I WANT IT TO
+#fruits %>% get_dupes(fruit, starts_with("cherr"))
+```
+
+
+
