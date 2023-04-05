@@ -11,7 +11,7 @@
 
 <meta name="author" content="Marisa Mackie" />
 
-<meta name="date" content="2023-04-03" />
+<meta name="date" content="2023-04-05" />
 
 <title>function: get_dupes()</title>
 
@@ -352,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">function: get_dupes()</h1>
 <h4 class="author">Marisa Mackie</h4>
-<h4 class="date">2023-04-03</h4>
+<h4 class="date">2023-04-05</h4>
 
 </div>
 
@@ -372,32 +372,118 @@ is represented <em>more than once</em> in the same dataset.</p>
 <div id="how-do-dupes-happen" class="section level4">
 <h4>How do dupes happen?</h4>
 <p>A few ways that duplicates can happen are via human error:</p>
-<p><strong>The user inputs the <em>same</em> information in a
-<em>different way</em></strong></p>
 <ul>
-<li>CSUN</li>
-<li>CSU Northridge</li>
-<li>Cal State University Northridge</li>
+<li><strong>The user inputs the <em>same</em> information in a
+<em>different way</em></strong></li>
 </ul>
-<p>Often these might be <em>case sensitive</em></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Name</th>
+<th align="right">Number</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">CSUN</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">CSU Northridge</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Cal State University Northridge</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>csun</li>
-<li>Csun</li>
-<li>CSUN</li>
+<li><strong>Often these might be case sensitive</strong></li>
 </ul>
-<p><strong>Typos</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Name</th>
+<th align="right">Number</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">csun</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Csun</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">CSUN</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li><p>CSU Northridge</p></li>
-<li><p>CSU Notrhridge</p></li>
-<li><p>12200345000</p></li>
-<li><p>12200354000</p></li>
+<li><strong>Typos</strong></li>
 </ul>
-<p><strong>User inputs data that is already there, i.e. they
-accidentally copy &amp; pasted it twice</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Name</th>
+<th align="right">Number</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">CSU Northridge</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">CSU Notrhridge</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th align="left">ID</th>
+<th align="right">Number</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">12200345000</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">12200354000</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>CSUN</li>
-<li>CSUN</li>
+<li><strong>User inputs data that is already there, i.e. they
+accidentally copy &amp; pasted it twice</strong></li>
 </ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Name</th>
+<th align="right">Number</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">CSUN</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">CSUN</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
 <hr />
 </div>
 <div id="what-can-i-do-about-dupes" class="section level4">
@@ -410,9 +496,8 @@ you.</p>
 <strong>fruits_with_dupes</strong> data.</p>
 <p>Now let’s ask Janitor to get duplicates for us!</p>
 <p>You can input the data within the arguments of the function, or pipe
-to the function from the data. You can also specify which columns you
-are looking for in the data, for example, fruit and rating.</p>
-<pre class="r"><code># Returns duplicates from your data
+to the function from the data.</p>
+<pre class="r"><code># Returns exact duplicates from your data
 get_dupes(fruits)</code></pre>
 <pre><code>## No variable names specified - using all columns.</code></pre>
 <pre><code>## # A tibble: 15 × 5
@@ -433,7 +518,9 @@ get_dupes(fruits)</code></pre>
 ## 13 mango      orange           9     9             2
 ## 14 orange     orange           7.7   8.5           2
 ## 15 orange     orange           7.7   8.5           2</code></pre>
-<pre class="r"><code># Returns duplicates from your data
+<p>You can also specify which columns you are looking for in the data,
+for example, fruit and rating.</p>
+<pre class="r"><code># Returns exact duplicates from your data
 fruits %&gt;% get_dupes(fruit, rating)</code></pre>
 <pre><code>## # A tibble: 15 × 5
 ##    fruit      rating dupe_count inside_color size_cm
@@ -454,17 +541,46 @@ fruits %&gt;% get_dupes(fruit, rating)</code></pre>
 ## 14 orange       8.5           2 orange           7.7
 ## 15 orange       8.5           2 orange           7.7</code></pre>
 <p>As you can see, Janitor returns all the duplicate values for us, and
-even includes a variable <strong>dupe_count</strong> to tell us how many
-duplicate rows there are for each piece of data.</p>
-<p>However, <em>get_dupes()</em> alone will only return exact duplicates
-of data. If there are misspellings or differences in user input as
-described previously, we wouldn’t see them here. To find those, we can
-use <em>get_dupes()</em> with other functions, such as
-<em>starts_with()</em> from <strong>dplyr</strong>.</p>
-<p>For example, let’s see if we can find any duplicates in the list for
-these fruits: cherry, peach, pomegranate, banana</p>
-<pre class="r"><code># NOT WORKING THE WAY I WANT IT TO
-#fruits %&gt;% get_dupes(fruit, starts_with(&quot;cherr&quot;))</code></pre>
+even includes a variable <strong>dupe_count</strong> to tell us <em>how
+many</em> duplicate rows there are for each piece of data.</p>
+<hr />
+<p>However, <em>get_dupes()</em> alone will only return <em>exact</em>
+duplicates of data. If there are misspellings or differences in user
+input as described previously, we wouldn’t see them here.</p>
+<p>I have gone ahead and extracted the rows that contain <em>non-exact
+duplicates</em> below so we can see them.</p>
+<pre><code>## # A tibble: 8 × 4
+##   fruit       inside_color size_cm rating
+##   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;  &lt;dbl&gt;
+## 1 peaches     orange           7.5    8.5
+## 2 peach       orange           7.5    8.5
+## 3 banana      yellow          13      8.5
+## 4 cherry      red              2      8  
+## 5 bananas     yellow          13      8.5
+## 6 pomegranate red              7.6    9.5
+## 7 pomegranite red              7.6    9.5
+## 8 cherries    red              2      8</code></pre>
+<p>As you can see we have a few examples of non-exact duplicates
+here:</p>
+<ul>
+<li><p>Misspellings - <em>“pomegranate”</em> vs
+<em>“pomegranite”</em></p></li>
+<li><p>Variations (plural &amp; singular) - <em>“cherry”</em> vs
+<em>“cherries”</em></p></li>
+</ul>
+<p>Since <em>get_dupes</em> returns only <em>exact duplicates</em>, we
+would not be able to return the above non-exact duplicates without the
+help of some other functions.</p>
+<p>For a small &amp; manageable list where we are familiar with all the
+data entries (like the fruits data), we may be able to find most of the
+duplicates using extra functions that can filter for similarly-spelled
+words.</p>
+<p>However, if we had a very large data set with data entries that we
+were mostly unfamiliar with, we would have no way of knowing if we
+managed to find every single possible misspelling/variation of a word,
+and it would be very difficult to find these types of duplicates without
+some techniques that are far more advanced than our current level of
+coding, and beyond the scope of this class.</p>
 </div>
 </div>
 

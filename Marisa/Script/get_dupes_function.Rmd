@@ -16,30 +16,41 @@ ___________
 #### How do dupes happen?
 A few ways that duplicates can happen are via human error:
 
-**The user inputs the _same_ information in a _different way_**
+ * **The user inputs the _same_ information in a _different way_**
 
- * CSUN
- * CSU Northridge
- * Cal State University Northridge 
+| Name  | Number |
+ |:-----|----:|
+ | CSUN | 1 |
+ | CSU Northridge | 1 |
+ | Cal State University Northridge | 1 |
   
-Often these might be _case sensitive_
+ * **Often these might be case sensitive**
 
- * csun
- * Csun
- * CSUN 
+ | Name | Number |
+ |:----|---:|
+ | csun | 1 |
+ | Csun | 1 |
+ | CSUN | 1 |
   
-**Typos**
+ * **Typos**
 
- * CSU Northridge
- * CSU Notrhridge
+ | Name | Number |
+ |:---------------|---:|
+ | CSU Northridge | 1 |
+ | CSU Notrhridge | 1 |
   
- * 12200345000
- * 12200354000
   
-**User inputs data that is already there, i.e. they accidentally copy & pasted it twice**
+ | ID          | Number |
+ |:------------|-------:|
+ | 12200345000 | 1 |
+ | 12200354000 | 1 |
+  
+ * **User inputs data that is already there, i.e. they accidentally copy & pasted it twice**
 
- * CSUN
- * CSUN
+ | Name | Number |
+ |:----|---:|
+ | CSUN | 1 |
+ | CSUN | 1 |
 
 ________
 
@@ -56,12 +67,13 @@ knitr::opts_chunk$set(echo = TRUE)
 # load libraries
 library(tidyverse)
 library(here)
+library(dplyr)
 library(janitor)
 
 # load data
 fruits <- read_csv(here("Marisa","Data","fruits_with_dupes.csv"))
 
-view(fruits)
+head(fruits)
 
 
 ```
@@ -69,29 +81,44 @@ view(fruits)
 Now let's ask Janitor to get duplicates for us!
 
 You can input the data within the arguments of the function, or pipe to the function from the data.
-You can also specify which columns you are looking for in the data, for example, fruit and rating.
 
 ```{r}
-# Returns duplicates from your data
+# Returns exact duplicates from your data
 get_dupes(fruits)
 
-# Returns duplicates from your data
+```
+You can also specify which columns you are looking for in the data, for example, fruit and rating.
+```{r}
+# Returns exact duplicates from your data
 fruits %>% get_dupes(fruit, rating)
 ```
 
-As you can see, Janitor returns all the duplicate values for us, and even includes a variable **dupe_count** to tell us how many duplicate rows there are for each piece of data.
 
+As you can see, Janitor returns all the duplicate values for us, and even includes a variable **dupe_count** to tell us _how many_ duplicate rows there are for each piece of data.
 
-However, _get_dupes()_ alone will only return exact duplicates of data. If there are misspellings or differences in user input as described previously, we wouldn't see them here.
-To find those, we can use _get_dupes()_ with other functions, such as _starts_with()_ from **dplyr**.
+________
 
-For example, let's see if we can find any duplicates in the list for these fruits:
-cherry, peach, pomegranate, banana
+However, _get_dupes()_ alone will only return _exact_ duplicates of data. If there are misspellings or differences in user input as described previously, we wouldn't see them here.
 
-```{r}
-# NOT WORKING THE WAY I WANT IT TO
-#fruits %>% get_dupes(fruit, starts_with("cherr"))
+I have gone ahead and extracted the rows that contain _non-exact duplicates_ below so we can see them.
+
+```{r, echo = FALSE}
+fruits_mispelled <- fruits[c(8, 11, 12, 16, 17, 24, 31, 34),]
+
+head(fruits_mispelled, 8)
 ```
 
+As you can see we have a few examples of non-exact duplicates here:
+
+ * Misspellings - _"pomegranate"_ vs _"pomegranite"_
+ 
+ * Variations (plural & singular) - _"cherry"_ vs _"cherries"_
+ 
+
+Since _get_dupes_ returns only _exact duplicates_, we would not be able to return the above non-exact duplicates without the help of some other functions.
+
+For a small & manageable list where we are familiar with all the data entries (like the fruits data), we may be able to find most of the duplicates using extra functions that can filter for similarly-spelled words.
+
+However, if we had a very large data set with data entries that we were mostly unfamiliar with, we would have no way of knowing if we managed to find every single possible misspelling/variation of a word, and it would be very difficult to find these types of duplicates without some techniques that are far more advanced than our current level of coding, and beyond the scope of this class.
 
 
