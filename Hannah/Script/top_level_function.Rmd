@@ -1,41 +1,87 @@
 ---
-title: "top_levels_function"
+title: "Top Levels Function, top_levels()"
 author: "Hannah Merges"
 date: "`r Sys.Date()`"
-output: html_document
+output: 
+  html_document: 
+    theme: cerulean
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, 
                       warning = FALSE, 
-                      message = FALSE)
+                      message = FALSE, 
+                      fig.path= "../Outputs/")
 ```
 
-## Learning how to use the top_levels() function in the janitor package  
-top_levels() is helpful to look at a large dataset and see which values or variables are most frequent. You can also ask R to specify how many "top levels" you want to see.  
-For example, let's say we have a dataset with:  
--  1,1,1,2,3,3,3,3,3,4,5
+### Introduction:  
+-  In this section, we are going to learn how to use the top_levels() function in the janitor package. Have you ever had a large dataset and wanted to be able to look at which values or variable are most frequent? 
+-  Well, using **top_levels()** can help with that! 
 
-When you use the top_level() function, R would tell you that you the value 3 is the most common within the dataset and if you wanted to specify what the top 2 most common values were, R would include 3 and 1.  
+You can also ask R to specify how many "top levels" you want to see.  
+
+-  For example, let's say we have a dataset with: 1,1,1,2,3,3,3,3,3,4,5
+
+When you use the top_level() function, R would return and tell you that the value "3" is the most common within the dataset and if you wanted to specify what the _top 2_ most common values were, R would output 3 and 1.  
 
 Pretty cool! 
 
-Let's try with some actual code and data now :) 
+#### Let's try with some actual code and data now :) 
 
-```{r}
+```{r, warning=TRUE}
+## Load the libraries that are necessary to demonstrate this function 
 library(palmerpenguins)
 library(janitor)
 
-#top_levels(penguins$species, 2)
+top_levels(penguins$species, 2)
+## this is an important example to use because it shows that there is an overlap in the top and bottom groups. 
+## So maybe we should use a different dataset with more levels...
 
+## If you are ever unsure or forget how the package or function works, remember you can use question marks to get more information about the uses of the function. 
 ??top_levels
 ```
 
-## Some notes to consider:  
+### Let's try with a larger dataset:
+```{r}
+## Read in the dataset for this example
+library(here)
+library(tidyverse)
+drugs <- read_csv(here("Hannah", "Data", "drugs.csv"))
+MCR <- read_csv(here("Hannah", "Data", "MCR_JCU_PLoS_DataArchive_20150121.csv"))
+
+## A good way to check to see if the variable you are hoping to filter has enough categories is by using the distinct() function 
+drugs %>% 
+  distinct(category)
+# so category of drug would not work here because there are only 2 
+
+# but therapeutic area may be a good example to work with 
+drugs %>% 
+  distinct(therapeutic_area) 
+
+top_levels(drugs$therapeutic_area)
+## oops not labeled as a factor ... how do we change this? 
+## You HAVE to do it within the line of code for top_levels --> if you do it before in a separate line of code, it will not work :/ 
+top_levels(as.factor(drugs$therapeutic_area), 3) ##we can also specify if we want to show NAs or not 
+
+```
+### What is the output? 
+The resulting tibble gives you the top and bottom 3 categories and the list of each item within that top and bottom 3 list. It will also tell you how many categories fall within the middle. The percentages are also calculated and can be based off of omitted NAs if that is specified.  
+
+One downfall of this function is that factors may not be that common in data sets. One option is to use _as.factor_ function and convert as we did above.  
+-  Another option is to create your own data set and learn a bonus function in today's lesson 
+
+
+
+
+
+### Some notes to consider:  
 -  you can only use top_levels() with factors! It will not work as a numeric value 
 -  make sure to install the janitor package and then load the library before trying to use top_levels() function
--  the category must also have at least 3 levels 
--  this warning message means there is an overlap in the top and bottom groups - use a different dataset for example 
+-  the category must also have **at least** 3 levels 
+
+
+
+
 
 
 
