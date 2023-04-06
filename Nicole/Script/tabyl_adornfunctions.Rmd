@@ -14,77 +14,95 @@ knitr::opts_chunk$set(echo = TRUE,
                       message =FALSE)
 ```
 
-##  All about Janitor's function: tabyl()
+##  All about Janitor's function: tabyl() + adorn() add-on functions
 
-In data science, all analysts do is basically count several things, taking into consideration many factors. Base R's table() function has many limitations when it comes to piping as it does not accept data.frame inputs or output data.frames. Formatting is pretty difficult unlike using other software like excel or SPSS. So janitor's function: tabyl() makes it so much easier to organize all data.frames, inputs and outputs accordingly while following the forward pipe operator. 
+In data science, all analysts do is basically count several things, taking into consideration many factors. Base R's table() function has many limitations when it comes to piping as it does not accept data.frame inputs or output data.frames. 
+That is why janitor is extremely useful when it comes to creating tables of count values for distinct levels of factor or character variables. Formatting is pretty difficult unlike using other software like excel or SPSS. Fortunately, janitor's function, tabyl(), makes it so much easier to organize all data.frames, inputs and outputs accordingly while following the forward pipe operator. 
 
-Tabyl() was actually built on dplyr and tidyr packages as well as works well with tidyverse. It produces frequency tables with 1-3 tables containing specific metadata so that is why adorn() functions are used alongside with tabyl(), yet it can work with other non-tabyl associated data.frames to format those as well.
+Tabyl() was actually built on dplyr and tidyr packages which is aligned with the tidyverse package. It produces frequency tables with 1-3 variables containing specific metadata so that is why adorn() functions are used alongside with tabyl(), yet it can work with other non-tabyl associated data.frames to format those as well.
 
+Cons: You need to filter out the data or else it will be an overwhelming block of data shown. You can only make up to a Three-Way Tabyl.
+
+# _Here we will only be making One-Way and Two-Way Tabyls._
+
+
+### Load Your Libraries & Read in the Data (drugs.csv)
 ```{r}
-# LOAD THE LIBRARIES
+## LOAD THE LIBRARIES
 library(tidyverse)
-library(dplyr)
-library(tidyr)
 library(here)
 library(janitor)
 
 # LOAD THE DATA
-drugs<-read.csv(here("Nicole","Data","drugs.csv"))
-glimpse(drugs)
-#View(drugs)
+drugs<-read.csv(here("Nicole","Data","drugs.csv")) # put the data in the correct folder and week name
+```
+### **Let's Make a One-Way Tabyl**
+* Tabulating one variable is the simplest kind of tabyl:
+* Let's choose **category** as our variable
+```{r}
+library(janitor)
+tabyl1 <- drugs %>%
+  
+   tabyl(category) # only inputting one variable into a tabyl, percentage will be given  alongside with how many times that category was recorded
 
-drugs_df <- drugs %>%
-   filter(therapeutic_area == "Schizophrenia") # only want Schizophrenia data to be put inside my tabyl
-   head(drugs_df,10)
-   
+ tabyl1 # look at the one-way tabyl
+```
+### **Let's Make a Two-Way Tabyl (Contingency Table)**
+- Instead of using dplyr::count(), followed by tidyr::pivot_wider() to wide form we only need to make a 2 way tabyl
+- Let's use the variables **category** and **decision_date**
+```{r}
+# load the library
+library(janitor)
+# filter the data
 drugs <- drugs %>%
-   filter(decision_date>"2022") # only want the dates from 2023
-  head(drugs,15)
+   filter(decision_date>"2023") # only want the dates from 2023 and onwards
+t2 <- drugs %>%
+  tabyl(category, decision_date) # There are only 2 categories: human and veterinary; dates have been filtered out to only show 2023 dates
+
+
+t2
 
 ```
+
+### **Now that we have a two-way tabyl(), how do we format the rows, columns, titles, etc. to be more visually appealing?**
+- This is where the adorn() functions come into play!
+
+### **Let's Use the adorn_ Functions That Visually Enhance Your Tabyls with Pretty Formatting!**
+
+These are all the adorn() functions...
+
+* #### **adorn_totals()**
+  + "col" gives the total amount of data points at the very end.
+  + "row" gives a total percentage for every data point.
+* #### **adorn_percentages()**
+  + The direction to use for calculating percentages. One of "row", "col", or "all" is known as the denominator.
+* #### **adorn_pct_formatting(digits = x)**
+  + This allows you to change the amount of numbers you can have after the decimal point in your percentage.
+* #### **adorn_ns(position = "...")**
+  + Appends natural splines, changes the ID or the name of a number.
+  +  Ns can be positioned in the front or in the rear end of the percentage, showing how mnay times that
+  percentage was brought up
+  for that actegory on that date.
+  + If you need to modify the numbers, such as to format 1000 as 1,000 or 1k, you can do that separately
+  and supply the formatted result here.
+* #### **adorn_title(placement = "top")**
+  + add a column name to the top of a two-way tabyl
+
+
+
 ```{r}
 drugs %>%
-  tabyl(category, authorisation_status, therapeutic_area, show_missing_levels = FALSE) %>%
-  adorn_totals("row") %>%
-  adorn_percentages("all") %>%
-  adorn_pct_formatting(digits = 1) %>%
-  adorn_ns %>%
-  adorn_title
+  tabyl(category, decision_date, show_missing_levels = FALSE) %>% # There are only 2 categories: human and veterinary; dates have been filtered out to only show 2023 dates, don't want any NAs or missing data points 
+  adorn_totals("row") %>% # it can be by column, by row, or both - one of "row", "col", or c("row", "col")
+  adorn_percentages("all") %>% # it can be by column, by row, or all
+  adorn_pct_formatting(digits = 1) %>% # how many numbers after the decimal in the percentage
+  adorn_ns("rear")%>% # can be moved to the front or the back of the percentage, shows you how many times that actegory was brought up on that date
+  adorn_title(placement = "top", row_name = "Category", col_name = "Decision Date") # changes the name of your row and column names
 ```
 
 
 
-```{r}
-# FILTER THE DATA
-  
-t1 <- drugs %>%
-  
-   tabyl(decision_date,category,therapeutic_area,15)
-
- t1
- 
- 
-    
-
-```
-```{r}
-#t1 <- drugs %>%
-    #tabyl(active_substance) # this table will only consider freq based on the variable active substance
-#t1  # this will have the entire list of active substances
-
-#t2 <- drugs %>% # table onyl considers few based on variable medicine _name
-#   tabyl(medicine_name)
-#t2 # this will only have the list of all the names of the medicines provided in the dataset
-
-# If N/As are present then tabyl() will make a separate percentages column
-
-
-```
-FUN FACT: If N/As are present then tabyl() will make a separate percentages column
-
-### Now that we have a tabyl(), how do we format it in a way that only shows each active substance's name once but counts the total of each one. This is where the adorn() functions come into play to help us format the columns, rows, titles, etc exactly how we want them to look.
 
 
 
 
-##
