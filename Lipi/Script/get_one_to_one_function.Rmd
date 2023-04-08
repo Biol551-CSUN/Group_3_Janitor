@@ -163,6 +163,6 @@ This means we need to tell R the **specific rows (a) and columns (b)** between w
 Use different data (ex. penguins data) to explore get_one_to_one() function. 
 
 ```{r}
-get_one_to_one(penguins[7:8,])
+get_one_to_one(penguins[4:6,])
 ```
 
