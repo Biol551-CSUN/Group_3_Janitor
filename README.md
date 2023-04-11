@@ -21,7 +21,7 @@ In the real world, most data sets are not as organized as we would like them to 
 - top_levels() - discussed by Hannah
 - tabyl() & its adorn() features - discussed by Nicole
 - get_dupes() - discussed by Marisa
-- get_one_to_one() - discussed by Lipi
+- get_one_to_one() & clean_names() - discussed by Lipi 
 
 ### *Some other exciting functions Janitor has to offer*
 - [Check out this article for more practice using janitor's functions](https://towardsdatascience.com/cleaning-and-exploring-data-with-the-janitor-package-ee4a3edf085e)
