@@ -19,7 +19,7 @@ It is important to organize and clean the data.frame for clear comparison and be
 
 Janitor package in R consists of different functions that can be used to clean and organize the data.frame.
 
-## **Function 1: clean_names()**
+# **Function 1: clean_names()**
 
 When we have data.frames with problematic variable names, we can use the function clean_names() to get a clean data.frame.
 
@@ -29,7 +29,7 @@ When we have data.frames with problematic variable names, we can use the functio
 
 "snake_case" is the default case used by R in which all the letters are in lowercase and separated by an underscore if there are more than one words in the name. 
 
-snake_case: "snake"
+For snake_case: "snake"
 
 You can input **??snakecase::to_any_case** in the console to see what other types of cases are available that you can use if required. 
 
@@ -46,13 +46,13 @@ You can input **??snakecase::to_any_case** in the console to see what other type
 - Sentence case: "sentence"
 
 
-2. Handles special characters and spaces (Ex. *age?!* to **age?1**)
+2. Handles special characters and spaces (Ex. *age?!* to **age**)
 
 3. Converts “%” to “percent” and “#” to “number” to retain meaning (Ex. *sleep %* to **sleep_percent**)
 
-4. Appends numbers to duplicated names (Ex. if there are two columns with same name, *state*, one of them will be converted to **city** and other to **city_2**)
+4. Appends numbers to duplicated names (Ex. if there are two columns with same name, *city*, one of them will be converted to **city** and other to **city_2**)
 
-5. Retains numerical values the way they are and separates them from words by an underscore (Ex. *birth date (2000)* to **birth_date_2007**)
+5. Retains numerical values the way they are and separates them from words by an underscore (Ex. *birth date (2000)* to **birth_date_2000**)
 
 ## Let's code to see how it works!
 
@@ -73,7 +73,7 @@ library(palmerpenguins)
 ```{r}
 df_1 <- as.data.frame(matrix(ncol = 6)) # creates a new data.frame named df_1 which has 6 columns
 names(df_1) <- c("firstName", "age?!", "sleep %",
-                    "city", "city", "birth date (2007)") # gives names to each of the 6 columns in order of the input
+                    "city", "city", "birth date (2000)") # gives names to each of the 6 columns in order of the input
 View(df_1) # opens df_1
 
 ```
@@ -90,7 +90,7 @@ df_1 %>%
 ```
 
 
-## **Function 2: get_one_to_one()**
+# **Function 2: get_one_to_one()**
 
 # How does the function **get_one_to_one()** work?
 
@@ -104,7 +104,6 @@ We don't have to load any extra libraries for this function. So, let's move on t
 drugs <- read_csv(here("Lipi","Data","drugs.csv"))
 glimpse(drugs)
 View(drugs)
-
 ```
 
 **Now let's call *get_one_to_one()* function to show us 1:1 relationship between different columns**
@@ -113,11 +112,11 @@ One liner code for this function is to call the function and enter the rows and 
 
 **Format: get_one_to_one(data[a,b])**
 
-**data** = data.frame of your choice
-**a** = rows (eg. for first 5 rows, enter 1:5)
-**b** = columns (eg. for first 6 columns, enter 1:6)
+- **data** = data.frame of your choice
+- **a** = rows (eg. for first 5 rows, enter 1:5)
+- **b** = columns (eg. for first 6 columns, enter 1:6)
+- If you leave a and/or b blank, it will consider the default value which is all the rows and columns of the data
 
-If you leave it blank, it will consider the default value which is all the columns of the data (eg. for first 5 rows and all the columns, enter [1:5,])
 
 **Example 1: First 5 rows and all the columns of data.frame [a=1:5 and b=blank]**
 
@@ -158,7 +157,7 @@ No output :(
 This means we need to tell R the **specific rows (a) and columns (b)** between which we want to explore 1:1 relationship.
 
 
-### Think, Pair and Share 
+# Think, Pair and Share 
 
 Use different data (ex. penguins data) to explore get_one_to_one() function. 
 

@@ -11,7 +11,7 @@
 
 <meta name="author" content="Lipi" />
 
-<meta name="date" content="2023-04-07" />
+<meta name="date" content="2023-04-11" />
 
 <title>Function: get_one_to_one()</title>
 
@@ -352,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">Function: get_one_to_one()</h1>
 <h4 class="author">Lipi</h4>
-<h4 class="date">2023-04-07</h4>
+<h4 class="date">2023-04-11</h4>
 
 </div>
 
@@ -363,11 +363,11 @@ display: none;
 comparison and better understanding of the data.</p>
 <p>Janitor package in R consists of different functions that can be used
 to clean and organize the data.frame.</p>
-<div id="function-1-clean_names" class="section level2">
-<h2><strong>Function 1: clean_names()</strong></h2>
+</div>
+<div id="function-1-clean_names" class="section level1">
+<h1><strong>Function 1: clean_names()</strong></h1>
 <p>When we have data.frames with problematic variable names, we can use
 the function clean_names() to get a clean data.frame.</p>
-</div>
 </div>
 <div id="how-does-the-function-clean_names-work" class="section level1">
 <h1>How does the function <strong>clean_names()</strong> work?</h1>
@@ -378,7 +378,7 @@ the function clean_names() to get a clean data.frame.</p>
 <p>“snake_case” is the default case used by R in which all the letters
 are in lowercase and separated by an underscore if there are more than
 one words in the name.</p>
-<p>snake_case: “snake”</p>
+<p>For snake_case: “snake”</p>
 <p>You can input <strong>??snakecase::to_any_case</strong> in the
 console to see what other types of cases are available that you can use
 if required.</p>
@@ -392,15 +392,15 @@ if required.</p>
 </ul>
 <ol start="2" style="list-style-type: decimal">
 <li><p>Handles special characters and spaces (Ex. <em>age?!</em> to
-<strong>age?1</strong>)</p></li>
+<strong>age</strong>)</p></li>
 <li><p>Converts “%” to “percent” and “#” to “number” to retain meaning
 (Ex. <em>sleep %</em> to <strong>sleep_percent</strong>)</p></li>
 <li><p>Appends numbers to duplicated names (Ex. if there are two columns
-with same name, <em>state</em>, one of them will be converted to
+with same name, <em>city</em>, one of them will be converted to
 <strong>city</strong> and other to <strong>city_2</strong>)</p></li>
 <li><p>Retains numerical values the way they are and separates them from
 words by an underscore (Ex. <em>birth date (2000)</em> to
-<strong>birth_date_2007</strong>)</p></li>
+<strong>birth_date_2000</strong>)</p></li>
 </ol>
 <div id="lets-code-to-see-how-it-works" class="section level2">
 <h2>Let’s code to see how it works!</h2>
@@ -432,7 +432,7 @@ library(janitor)</code></pre>
 </strong></p>
 <pre class="r"><code>df_1 &lt;- as.data.frame(matrix(ncol = 6)) # creates a new data.frame named df_1 which has 6 columns
 names(df_1) &lt;- c(&quot;firstName&quot;, &quot;age?!&quot;, &quot;sleep %&quot;,
-                    &quot;city&quot;, &quot;city&quot;, &quot;birth date (2007)&quot;) # gives names to each of the 6 columns in order of the input
+                    &quot;city&quot;, &quot;city&quot;, &quot;birth date (2000)&quot;) # gives names to each of the 6 columns in order of the input
 View(df_1) # opens df_1</code></pre>
 </div>
 </div>
@@ -444,11 +444,11 @@ data.frame with clean names</strong></p>
 data.frame and run it.</p>
 <pre class="r"><code>df_1 %&gt;%
   clean_names()</code></pre>
-<pre><code>##   first_name age sleep_percent city city_2 birth_date_2007
+<pre><code>##   first_name age sleep_percent city city_2 birth_date_2000
 ## 1         NA  NA            NA   NA     NA              NA</code></pre>
-<div id="function-2-get_one_to_one" class="section level2">
-<h2><strong>Function 2: get_one_to_one()</strong></h2>
 </div>
+<div id="function-2-get_one_to_one" class="section level1">
+<h1><strong>Function 2: get_one_to_one()</strong></h1>
 </div>
 <div id="how-does-the-function-get_one_to_one-work" class="section level1">
 <h1>How does the function <strong>get_one_to_one()</strong> work?</h1>
@@ -507,12 +507,14 @@ drugs &lt;- read_csv(here(&quot;Lipi&quot;,&quot;Data&quot;,&quot;drugs.csv&quot
 <p>One liner code for this function is to call the function and enter
 the rows and columns of which you want to explore the relationship:</p>
 <p><strong>Format: get_one_to_one(data[a,b])</strong></p>
-<p><strong>data</strong> = data.frame of your choice <strong>a</strong>
-= rows (eg. for first 5 rows, enter 1:5) <strong>b</strong> = columns
-(eg. for first 6 columns, enter 1:6)</p>
-<p>If you leave it blank, it will consider the default value which is
-all the columns of the data (eg. for first 5 rows and all the columns,
-enter [1:5,])</p>
+<ul>
+<li><strong>data</strong> = data.frame of your choice</li>
+<li><strong>a</strong> = rows (eg. for first 5 rows, enter 1:5)</li>
+<li><strong>b</strong> = columns (eg. for first 6 columns, enter
+1:6)</li>
+<li>If you leave a and/or b blank, it will consider the default value
+which is all the rows and columns of the data</li>
+</ul>
 <p><strong>Example 1: First 5 rows and all the columns of data.frame
 [a=1:5 and b=blank]</strong></p>
 <pre class="r"><code>get_one_to_one(drugs[1:5,]) # shows relation between first 5 rows and all the columns</code></pre>
@@ -567,8 +569,9 @@ a”</em>.</p>
 <p>No output :( This means we need to tell R the <strong>specific rows
 (a) and columns (b)</strong> between which we want to explore 1:1
 relationship.</p>
-<div id="think-pair-and-share" class="section level3">
-<h3>Think, Pair and Share</h3>
+</div>
+<div id="think-pair-and-share" class="section level1">
+<h1>Think, Pair and Share</h1>
 <p>Use different data (ex. penguins data) to explore get_one_to_one()
 function.</p>
 <pre class="r"><code>get_one_to_one(penguins[4:6,])</code></pre>
@@ -578,7 +581,6 @@ function.</p>
 ## [[2]]
 ## [1] &quot;bill_length_mm&quot;    &quot;bill_depth_mm&quot;     &quot;flipper_length_mm&quot;
 ## [4] &quot;body_mass_g&quot;       &quot;sex&quot;</code></pre>
-</div>
 </div>
 
 
