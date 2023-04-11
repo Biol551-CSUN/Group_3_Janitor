@@ -11,7 +11,7 @@
 
 <meta name="author" content="Hannah Merges" />
 
-<meta name="date" content="2023-04-04" />
+<meta name="date" content="2023-04-11" />
 
 <title>Top Levels Function, top_levels()</title>
 
@@ -352,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">Top Levels Function, top_levels()</h1>
 <h4 class="author">Hannah Merges</h4>
-<h4 class="date">2023-04-04</h4>
+<h4 class="date">2023-04-11</h4>
 
 </div>
 
@@ -379,13 +379,72 @@ would output 3 and 1.</p>
 <p>Pretty cool!</p>
 <div id="lets-try-with-some-actual-code-and-data-now" class="section level4">
 <h4>Let’s try with some actual code and data now :)</h4>
-<pre class="r"><code>library(palmerpenguins)
+<pre class="r"><code>## Load the libraries that are necessary to demonstrate this function 
+library(palmerpenguins)
 library(janitor)
 
-#top_levels(penguins$species, 2)
+#top_levels(penguins$species)
+## this is an important example to use because it shows that there is an overlap in the top and bottom groups. 
+## So maybe we should use a different dataset with more levels...
 
+## If you are ever unsure or forget how the package or function works, remember you can use question marks to get more information about the uses of the function. 
 ??top_levels</code></pre>
 </div>
+</div>
+<div id="lets-try-with-a-larger-dataset" class="section level3">
+<h3>Let’s try with a larger dataset:</h3>
+<pre class="r"><code>## Read in the dataset for this example
+library(here)
+library(tidyverse)
+drugs &lt;- read_csv(here(&quot;Hannah&quot;, &quot;Data&quot;, &quot;drugs.csv&quot;))
+MCR &lt;- read_csv(here(&quot;Hannah&quot;, &quot;Data&quot;, &quot;MCR_JCU_PLoS_DataArchive_20150121.csv&quot;))
+
+## A good way to check to see if the variable you are hoping to filter has enough categories is by using the distinct() function 
+drugs %&gt;% 
+  distinct(category)</code></pre>
+<pre><code>## # A tibble: 2 × 1
+##   category  
+##   &lt;chr&gt;     
+## 1 human     
+## 2 veterinary</code></pre>
+<pre class="r"><code># so category of drug would not work here because there are only 2 
+
+# but therapeutic area may be a good example to work with 
+drugs %&gt;% 
+  distinct(therapeutic_area) </code></pre>
+<pre><code>## # A tibble: 670 × 1
+##    therapeutic_area                                                             
+##    &lt;chr&gt;                                                                        
+##  1 Lymphoma, Non-Hodgkin;  Hodgkin Disease                                      
+##  2 Tyrosinemias                                                                 
+##  3 Lymphoproliferative Disorders                                                
+##  4 COVID-19 virus infection                                                     
+##  5 Arthritis, Psoriatic;  Psoriasis;  Spondylitis, Ankylosing                   
+##  6 Thyroid Neoplasms                                                            
+##  7 Arthritis, Psoriatic;  Arthritis, Juvenile Rheumatoid;  Arthritis, Rheumatoi…
+##  8 Arthritis, Rheumatoid                                                        
+##  9 Sleep Initiation and Maintenance Disorders                                   
+## 10 Lens Implantation, Intraocular;  Pain, Postoperative                         
+## # … with 660 more rows</code></pre>
+<pre class="r"><code>#top_levels(drugs$therapeutic_area)
+## oops not labeled as a factor ... how do we change this? 
+## You HAVE to do it within the line of code for top_levels --&gt; if you do it before in a separate line of code, it will not work :/ 
+top_levels(as.factor(drugs$therapeutic_area), 3) ##we can also specify if we want to show NAs or not </code></pre>
+<pre><code>##      as.factor(drugs$therapeutic_area)    n     percent
+##         Abdominal Neoplasms, Achond...    3 0.001761597
+##  &lt;&lt;&lt; Middle Group (663 categories) &gt;&gt;&gt; 1697 0.996476806
+##         Wounds and Injuries;  Breas...    3 0.001761597</code></pre>
+</div>
+<div id="what-is-the-output" class="section level3">
+<h3>What is the output?</h3>
+<p>The resulting tibble gives you the top and bottom 3 categories and
+the list of each item within that top and bottom 3 list. It will also
+tell you how many categories fall within the middle. The percentages are
+also calculated and can be based off of omitted NAs if that is
+specified.</p>
+<p>One downfall of this function is that factors may not be that common
+in data sets. One option is to use <em>as.factor</em> function and
+convert as we did above.</p>
 </div>
 <div id="some-notes-to-consider" class="section level3">
 <h3>Some notes to consider:</h3>
@@ -394,9 +453,7 @@ library(janitor)
 numeric value</li>
 <li>make sure to install the janitor package and then load the library
 before trying to use top_levels() function</li>
-<li>the category must also have at least 3 levels</li>
-<li>this warning message means there is an overlap in the top and bottom
-groups - use a different dataset for example</li>
+<li>the category must also have <strong>at least</strong> 3 levels</li>
 </ul>
 </div>
 

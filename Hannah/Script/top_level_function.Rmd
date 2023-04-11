@@ -28,12 +28,12 @@ Pretty cool!
 
 #### Let's try with some actual code and data now :) 
 
-```{r, warning=TRUE}
+```{r, warning=FALSE}
 ## Load the libraries that are necessary to demonstrate this function 
 library(palmerpenguins)
 library(janitor)
 
-top_levels(penguins$species, 2)
+#top_levels(penguins$species)
 ## this is an important example to use because it shows that there is an overlap in the top and bottom groups. 
 ## So maybe we should use a different dataset with more levels...
 
@@ -58,7 +58,7 @@ drugs %>%
 drugs %>% 
   distinct(therapeutic_area) 
 
-top_levels(drugs$therapeutic_area)
+#top_levels(drugs$therapeutic_area)
 ## oops not labeled as a factor ... how do we change this? 
 ## You HAVE to do it within the line of code for top_levels --> if you do it before in a separate line of code, it will not work :/ 
 top_levels(as.factor(drugs$therapeutic_area), 3) ##we can also specify if we want to show NAs or not 
@@ -68,11 +68,6 @@ top_levels(as.factor(drugs$therapeutic_area), 3) ##we can also specify if we wan
 The resulting tibble gives you the top and bottom 3 categories and the list of each item within that top and bottom 3 list. It will also tell you how many categories fall within the middle. The percentages are also calculated and can be based off of omitted NAs if that is specified.  
 
 One downfall of this function is that factors may not be that common in data sets. One option is to use _as.factor_ function and convert as we did above.  
--  Another option is to create your own data set and learn a bonus function in today's lesson 
-
-
-
-
 
 ### Some notes to consider:  
 -  you can only use top_levels() with factors! It will not work as a numeric value 
