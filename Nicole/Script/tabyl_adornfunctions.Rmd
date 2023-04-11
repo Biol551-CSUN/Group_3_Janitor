@@ -80,9 +80,9 @@ These are all the adorn() functions...
   + This allows you to change the amount of numbers you can have after the decimal point in your percentage.
 * #### **adorn_ns(position = "...")**
   + Appends natural splines, changes the ID or the name of a number.
-  +  Ns can be positioned in the front or in the rear end of the percentage, showing how mnay times that
+  +  Ns can be positioned in the front or in the rear end of the percentage, showing how many times that
   percentage was brought up
-  for that actegory on that date.
+  for that category on that date.
   + If you need to modify the numbers, such as to format 1000 as 1,000 or 1k, you can do that separately
   and supply the formatted result here.
 * #### **adorn_title(placement = "top")**
@@ -96,7 +96,7 @@ drugs %>%
   adorn_totals("row") %>% # it can be by column, by row, or both - one of "row", "col", or c("row", "col")
   adorn_percentages("all") %>% # it can be by column, by row, or all
   adorn_pct_formatting(digits = 1) %>% # how many numbers after the decimal in the percentage
-  adorn_ns("rear")%>% # can be moved to the front or the back of the percentage, shows you how many times that actegory was brought up on that date
+  adorn_ns("rear")%>% # can be moved to the front or the back of the percentage, shows you how many times that category was brought up on that date
   adorn_title(placement = "top", row_name = "Category", col_name = "Decision Date") # changes the name of your row and column names
 ```
 
