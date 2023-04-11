@@ -4,8 +4,10 @@ author: "Marisa Mackie"
 date: "`r Sys.Date()`"
 output: html_document
 ---
-## Get Duplicates
-One issue that we sometimes run into when working with datasets is the presence of **duplicate** pieces of data, or **"dupes."**  This means that the _same information_ is represented _more than once_ in the same dataset.
+## Function: get_dupes()
+
+#### Introduction:
+One issue that we sometimes run into when working with data is the presence of duplicate pieces of data, or "dupes".  This means that the **same information** is represented **more than once** in the same dataset.
 
 Below is an example of data, with duplicates highlighted in red.
 
@@ -16,6 +18,13 @@ ___________
 #### How do dupes happen?
 A few ways that duplicates can happen are via human error:
 
+ * **User inputs data that is already there, i.e. they accidentally copy & pasted it twice**
+
+ | Name | Number |
+ |:----|---:|
+ | CSUN | 1 |
+ | CSUN | 1 |
+ 
  * **The user inputs the _same_ information in a _different way_**
 
 | Name  | Number |
@@ -44,37 +53,30 @@ A few ways that duplicates can happen are via human error:
  |:------------|-------:|
  | 12200345000 | 1 |
  | 12200354000 | 1 |
-  
- * **User inputs data that is already there, i.e. they accidentally copy & pasted it twice**
-
- | Name | Number |
- |:----|---:|
- | CSUN | 1 |
- | CSUN | 1 |
 
 ________
 
 #### What can I do about dupes?
 The first step in dealing with dupes is to identify them.
 
-The **Janitor** package has a useful function called **get_dupes()** that identifies all duplicate data for you.
+The **Janitor** package has a useful function called **_get_dupes()_** that identifies & returns duplicates for you.
 
-To demonstrate this, let's load in the **fruits_with_dupes** data.
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, include = FALSE}
 
 # load libraries
 library(tidyverse)
 library(here)
-library(dplyr)
 library(janitor)
 
+```
+
+To demonstrate this, let's load in the _fruits_with_dupes_ data.
+```{r, message = FALSE}
 # load data
 fruits <- read_csv(here("Marisa","Data","fruits_with_dupes.csv"))
 
-head(fruits)
-
+# look at first 10 lines
+head(fruits,10)
 
 ```
 
@@ -94,15 +96,15 @@ fruits %>% get_dupes(fruit, rating)
 ```
 
 
-As you can see, Janitor returns all the duplicate values for us, and even includes a variable **dupe_count** to tell us _how many_ duplicate rows there are for each piece of data.
+As you can see, Janitor returns all the duplicate values for us, and even includes a new column **dupe_count** to tell us _how many_ duplicate rows there are for each piece of data.
 
 ________
 
-However, _get_dupes()_ alone will only return _exact_ duplicates of data. If there are misspellings or differences in user input as described previously, we wouldn't see them here.
+However, **_get_dupes()_** alone will only return **exact** duplicates of data. Misspellings or differences in user input wouldn't show up.
 
-I have gone ahead and extracted the rows that contain _non-exact duplicates_ below so we can see them.
+I have gone ahead and extracted the rows that contain _non-exact_ duplicates below so we can see them.
 
-```{r, echo = FALSE}
+```{r, include = TRUE, echo = FALSE}
 fruits_mispelled <- fruits[c(8, 11, 12, 16, 17, 24, 31, 34),]
 
 head(fruits_mispelled, 8)
@@ -112,11 +114,13 @@ As you can see we have a few examples of non-exact duplicates here:
 
  * Misspellings - _"pomegranate"_ vs _"pomegranite"_
  
- * Variations (plural & singular) - _"cherry"_ vs _"cherries"_
+ * Variations (plural & singular) - _"banana"_ vs _"bananas"_
  
 
-Since _get_dupes_ returns only _exact duplicates_, we would not be able to return the above non-exact duplicates without the help of some other functions.
+Since **_get_dupes_** returns only _exact duplicates_, we wouldn't be able to return non-exact duplicates without the help of other functions and/or packages.
 
+_______
+#### For advanced duplicate searches:
 For a small & manageable list where we are familiar with all the data entries (like the fruits data), we may be able to find most of the duplicates using extra functions that can filter for similarly-spelled words.
 
 However, if we had a very large data set with data entries that we were mostly unfamiliar with, we would have no way of knowing if we managed to find every single possible misspelling/variation of a word, and it would be very difficult to find these types of duplicates without some techniques that are far more advanced than our current level of coding, and beyond the scope of this class.
