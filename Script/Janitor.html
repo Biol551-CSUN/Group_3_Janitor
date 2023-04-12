@@ -12,7 +12,7 @@
 
 <meta name="author" content="Nicole Ayala, Marisa Mackie, Hannah Merges, Lipi Patel" />
 
-<meta name="date" content="2023-04-11" />
+<meta name="date" content="2023-04-12" />
 
 <title>Janitor</title>
 
@@ -145,7 +145,7 @@ pointer-events: auto;
 <h1 class="title toc-ignore">Janitor</h1>
 <h3 class="author">Nicole Ayala, Marisa Mackie, Hannah Merges, Lipi
 Patel</h3>
-<h3 class="date">2023-04-11</h3>
+<h3 class="date">2023-04-12</h3>
 </header>
 
 <hr>
@@ -168,7 +168,7 @@ functions</a></li>
 <li><a href="#function-4-get_dupes" id="toc-function-4-get_dupes">Function 4:
 <strong>get_dupes()</strong></a></li>
 <li><a href="#function-5-top_levels" id="toc-function-5-top_levels">Function 5:
-<strong>top_levels</strong></a></li>
+<strong>top_levels()</strong></a></li>
 </ul></li>
 </ul>
 </div>
@@ -399,7 +399,7 @@ words by an underscore (Ex. <em>birth date (2000)</em> to
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df_1 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">6</span>)) <span class="co"># creates a new data.frame named df_1 which has 6 columns</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(df_1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;firstName&quot;</span>, <span class="st">&quot;age?!&quot;</span>, <span class="st">&quot;sleep %&quot;</span>,</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;city&quot;</span>, <span class="st">&quot;city&quot;</span>, <span class="st">&quot;birth date (2000)&quot;</span>) <span class="co"># gives names to each of the 6 columns in order of the input</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(df_1) <span class="co"># opens df_1</span></span></code></pre></div>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#View(df_1) # opens df_1</span></span></code></pre></div>
 <p>Awesome!</p>
 <p><strong>Finally, use the function <em>clean_names()</em> to get a
 data.frame with clean names</strong></p>
@@ -738,18 +738,28 @@ therefore would require more advanced techniques.</p>
 </div>
 </div>
 <div id="function-5-top_levels" class="section level3">
-<h3>Function 5: <strong>top_levels</strong></h3>
+<h3>Function 5: <strong>top_levels()</strong></h3>
 <div id="introduction-1" class="section level4">
 <h4>Introduction:</h4>
 <ul>
 <li>In this section, we are going to learn how to use the top_levels()
-function in the janitor package. Have you ever had a large dataset and
-wanted to be able to look at which values or variable are most
-frequent?</li>
+function in the janitor package.</li>
+</ul>
+<p>Have you ever had a large dataset and wanted to be able to look at
+which values or variable are most frequent?</p>
+<ul>
 <li>Well, using <strong>top_levels()</strong> can help with that!</li>
 </ul>
-<p>You can also ask R to specify how many “top levels” you want to
-see.</p>
+<p>Previous functions we have discussed have been useful for cleaning
+your data, however, top_levels() is useful to help explore your data a
+bit further and maybe help you figure out the best way to visualize it
+and use the information in a plot.</p>
+<p>The output is a tbl_df frequency table with specific rows from your
+dataset separated into head/middle/tail groups. This function
+automatically calculates a percent column for you, supports sorting, and
+can either show or hide NA values.</p>
+<p>You can also ask R to specify how many “top levels” you want to see.
+<strong>Let’s look at a basic example:</strong></p>
 <ul>
 <li>For example, let’s say we have a dataset with:
 1,1,1,2,3,3,3,3,3,4,5</li>
@@ -762,12 +772,9 @@ would output 3 and 1.</p>
 </div>
 <div id="lets-try-with-some-actual-code-and-data-now" class="section level4">
 <h4>Let’s try with some actual code and data now :)</h4>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#top_levels(penguins$species)</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="do">## this is an important example to use because it shows that there is an overlap in the top and bottom groups. </span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="do">## So maybe we should use a different dataset with more levels...</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="do">## If you are ever unsure or forget how the package or function works, remember you can use question marks to get more information about the uses of the function. </span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>??top_levels</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># top_levels(penguins$species) </span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="do">## used hashtag so script would still run but this is a good example to use because it shows that there is an overlap in the top and bottom groups. </span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="do">## So maybe we should use a different dataset with more levels...</span></span></code></pre></div>
 </div>
 <div id="lets-try-with-a-larger-dataset" class="section level4">
 <h4>Let’s try with a larger dataset:</h4>
@@ -778,7 +785,7 @@ would output 3 and 1.</p>
 ##   category
 ##   &lt;chr&gt;   
 ## 1 human</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># so category of drug would not work here because there are only 2 </span></span>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># so category of drug would not work here because again there are only 2 </span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># but therapeutic area may be a good example to work with </span></span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>drugs <span class="sc">%&gt;%</span> </span>
@@ -798,13 +805,19 @@ would output 3 and 1.</p>
 ## 10 Schizophrenia;  Bipolar Disorder                                             
 ## # … with 153 more rows</code></pre>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#top_levels(drugs$therapeutic_area)</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="do">## oops not labeled as a factor ... how do we change this? </span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="do">## You HAVE to do it within the line of code for top_levels --&gt; if you do it before in a separate line of code, it will not work :/ </span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">top_levels</span>(<span class="fu">as.factor</span>(drugs<span class="sc">$</span>therapeutic_area), <span class="dv">3</span>) <span class="do">##we can also specify if we want to show NAs or not </span></span></code></pre></div>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="do">## ^ again used a hashtag here to run the code BUT if you were just to use this code chunk as is, you would get an error. </span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Why? </span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="do">## The variable is not labeled as a factor ... how do we change this? </span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="do">## You HAVE to do it within the line of code for top_levels --&gt; if you do it before in a separate line of code, it will not work :/ </span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="fu">top_levels</span>(<span class="fu">as.factor</span>(drugs<span class="sc">$</span>therapeutic_area), <span class="dv">3</span>) <span class="do">##we can also specify if we want to show NAs or not </span></span></code></pre></div>
 <pre><code>##      as.factor(drugs$therapeutic_area)   n    percent
 ##         Acute Coronary Syndrome;  V...   3 0.01219512
 ##  &lt;&lt;&lt; Middle Group (157 categories) &gt;&gt;&gt; 240 0.97560976
 ##         Wet Macular Degeneration;  ...   3 0.01219512</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the comma after the dataset and specified variable tells R how many &quot;top levels&quot; you want to see  </span></span></code></pre></div>
 </div>
 <div id="what-is-the-output" class="section level4">
 <h4>What is the output?</h4>
@@ -815,16 +828,25 @@ also calculated and can be based off of omitted NAs if that is
 specified.</p>
 <p>One downfall of this function is that factors may not be that common
 in data sets. One option is to use <em>as.factor</em> function and
-convert as we did above.</p>
+convert as we did above. Another more advanced technique, which we don’t
+have time for today, is to actually re-create the df and do some extra
+fancy coding.</p>
 </div>
-<div id="some-notes-to-consider" class="section level4">
-<h4>Some notes to consider:</h4>
+<div id="conclusion" class="section level4">
+<h4>Conclusion:</h4>
 <ul>
-<li>you can only use top_levels() with factors! It will not work as a
-numeric value</li>
+<li>you can only use top_levels() with factors! It will not work with
+numeric values</li>
 <li>make sure to install the janitor package and then load the library
-before trying to use top_levels() function</li>
+before trying to use any of the functions from today</li>
 <li>the category must also have <strong>at least</strong> 3 levels</li>
+<li>if you are ever unsure or forget how the package or function works,
+remember you can use question marks to get more information about the
+uses of the function –&gt; ??top_levels</li>
+<li>and we didn’t get to cover all the functions in this package, so if
+you are interesting in learning about other functions to help with
+cleaning and exploring your data, you can check out the package features
+<a href="https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html#count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels">here</a></li>
 </ul>
 <hr />
 <hr />

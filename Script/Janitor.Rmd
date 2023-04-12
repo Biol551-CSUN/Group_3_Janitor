@@ -178,7 +178,7 @@ Let's code to see how it works!
 df_1 <- as.data.frame(matrix(ncol = 6)) # creates a new data.frame named df_1 which has 6 columns
 names(df_1) <- c("firstName", "age?!", "sleep %",
                     "city", "city", "birth date (2000)") # gives names to each of the 6 columns in order of the input
-View(df_1) # opens df_1
+#View(df_1) # opens df_1
 
 ```
 
@@ -370,13 +370,20 @@ However, if we had a very large data set with data entries that we were mostly u
 
 ____________________________________________________________________________
 
-### Function 5: **top_levels**
+### Function 5: **top_levels()**
 
 #### Introduction:  
--  In this section, we are going to learn how to use the top_levels() function in the janitor package. Have you ever had a large dataset and wanted to be able to look at which values or variable are most frequent? 
--  Well, using **top_levels()** can help with that! 
+-  In this section, we are going to learn how to use the top_levels() function in the janitor package.   
 
-You can also ask R to specify how many "top levels" you want to see.  
+Have you ever had a large dataset and wanted to be able to look at which values or variable are most frequent?  
+
+-  Well, using **top_levels()** can help with that!  
+
+Previous functions we have discussed have been useful for cleaning your data, however, top_levels() is useful to help explore your data a bit further and maybe help you figure out the best way to visualize it and use the information in a plot.  
+
+The output is a tbl_df frequency table with specific rows from your dataset separated into head/middle/tail groups. This function automatically calculates a percent column for you, supports sorting, and can either show or hide NA values. 
+
+You can also ask R to specify how many "top levels" you want to see. **Let's look at a basic example:** 
 
 -  For example, let's say we have a dataset with: 1,1,1,2,3,3,3,3,3,4,5
 
@@ -387,12 +394,10 @@ Pretty cool!
 #### Let's try with some actual code and data now :) 
 
 ```{r, warning=FALSE}
-#top_levels(penguins$species)
-## this is an important example to use because it shows that there is an overlap in the top and bottom groups. 
+# top_levels(penguins$species) 
+## used hashtag so script would still run but this is a good example to use because it shows that there is an overlap in the top and bottom groups. 
 ## So maybe we should use a different dataset with more levels...
 
-## If you are ever unsure or forget how the package or function works, remember you can use question marks to get more information about the uses of the function. 
-??top_levels
 ```
 
 #### Let's try with a larger dataset:
@@ -400,28 +405,36 @@ Pretty cool!
 ## A good way to check to see if the variable you are hoping to filter has enough categories is by using the distinct() function 
 drugs %>% 
   distinct(category)
-# so category of drug would not work here because there are only 2 
+# so category of drug would not work here because again there are only 2 
 
 # but therapeutic area may be a good example to work with 
 drugs %>% 
   distinct(therapeutic_area) 
 
 #top_levels(drugs$therapeutic_area)
-## oops not labeled as a factor ... how do we change this? 
+## ^ again used a hashtag here to run the code BUT if you were just to use this code chunk as is, you would get an error. 
+
+# Why? 
+
+## The variable is not labeled as a factor ... how do we change this? 
+
 ## You HAVE to do it within the line of code for top_levels --> if you do it before in a separate line of code, it will not work :/ 
 top_levels(as.factor(drugs$therapeutic_area), 3) ##we can also specify if we want to show NAs or not 
+# the comma after the dataset and specified variable tells R how many "top levels" you want to see  
 
 ```
 #### What is the output? 
 The resulting tibble gives you the top and bottom 3 categories and the list of each item within that top and bottom 3 list. It will also tell you how many categories fall within the middle. The percentages are also calculated and can be based off of omitted NAs if that is specified.  
 
-One downfall of this function is that factors may not be that common in data sets. One option is to use _as.factor_ function and convert as we did above.  
+One downfall of this function is that factors may not be that common in data sets. One option is to use _as.factor_ function and convert as we did above. Another more advanced technique, which we don't have time for today, is to actually re-create the df and do some extra fancy coding.  
 
-#### Some notes to consider:  
--  you can only use top_levels() with factors! It will not work as a numeric value 
--  make sure to install the janitor package and then load the library before trying to use top_levels() function
+#### Conclusion:  
+-  you can only use top_levels() with factors! It will not work with numeric values 
+-  make sure to install the janitor package and then load the library before trying to use any of the functions from today
 -  the category must also have **at least** 3 levels
+-  if you are ever unsure or forget how the package or function works, remember you can use question marks to get more information about the uses of the function --> ??top_levels
+-  and we didn't get to cover all the functions in this package, so if you are interesting in learning about other functions to help with cleaning and exploring your data, you can check out the package features [here](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html#count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels) 
 
 _____________________________
 _____________________________
-###### Thank you for reading!
+###### Thank you for reading! 
