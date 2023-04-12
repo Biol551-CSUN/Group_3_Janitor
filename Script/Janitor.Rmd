@@ -430,8 +430,9 @@ One downfall of this function is that factors may not be that common in data set
 
 #### Conclusion:  
 -  you can only use top_levels() with factors! It will not work with numeric values 
--  make sure to install the janitor package and then load the library before trying to use any of the functions from today
 -  the category must also have **at least** 3 levels
+
+-  make sure to install the janitor package and then load the library before trying to use any of the functions from today
 -  if you are ever unsure or forget how the package or function works, remember you can use question marks to get more information about the uses of the function --> ??top_levels
 -  and we didn't get to cover all the functions in this package, so if you are interesting in learning about other functions to help with cleaning and exploring your data, you can check out the package features [here](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html#count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels) 
 
