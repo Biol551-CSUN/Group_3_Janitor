@@ -370,8 +370,6 @@ functions</a></li>
 <li><a href="#here-we-will-only-be-making-one-way-and-two-way-tabyls." id="toc-here-we-will-only-be-making-one-way-and-two-way-tabyls."><em>Here
 we will only be making One-Way and Two-Way Tabyls.</em></a>
 <ul>
-<li><a href="#load-your-libraries-read-in-the-data-drugs.csv" id="toc-load-your-libraries-read-in-the-data-drugs.csv">Load Your
-Libraries &amp; Read in the Data (drugs.csv)</a></li>
 <li><a href="#lets-make-a-one-way-tabyl" id="toc-lets-make-a-one-way-tabyl"><strong>Let’s Make a One-Way
 Tabyl</strong></a></li>
 <li><a href="#lets-make-a-two-way-tabyl-contingency-table" id="toc-lets-make-a-two-way-tabyl-contingency-table"><strong>Let’s Make
@@ -432,20 +430,60 @@ to clean and organize the data.frame.</p>
 <h3>Libraries</h3>
 <p>These are the libraries we will be using:</p>
 <pre class="r"><code># Load libraries
-library(tidyverse)
-library(here)
-library(palmerpenguins)
+library(tidyverse)</code></pre>
+<pre><code>## Warning: package &#39;tidyverse&#39; was built under R version 4.2.3</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.2.3</code></pre>
+<pre><code>## Warning: package &#39;stringr&#39; was built under R version 4.2.3</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.0     ✔ readr     2.1.4
+## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+## ✔ ggplot2   3.4.1     ✔ tibble    3.1.8
+## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+## ✔ purrr     1.0.1     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the ]8;;http://conflicted.r-lib.org/conflicted package]8;; to force all conflicts to become errors</code></pre>
+<pre class="r"><code>library(here)</code></pre>
+<pre><code>## Warning: package &#39;here&#39; was built under R version 4.2.3</code></pre>
+<pre><code>## here() starts at C:/Users/patel/Dropbox/PC/Documents/Computer_Modeling_SP2023/Group_3_Janitor</code></pre>
+<pre class="r"><code>library(palmerpenguins)
 library(janitor)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;janitor&#39;
+## 
+## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     chisq.test, fisher.test</code></pre>
 </div>
 <div id="data" class="section level3">
 <h3>Data</h3>
-<p>Please load in the following data sets:</p>
+<p>Please load in the following data sets in the correct folder:</p>
 <ul>
 <li><p>Drug data from Tidy Tuesday</p></li>
 <li><p>Fruits_with_dupes data</p></li>
-<li></li>
 </ul>
-<pre class="r"><code>drugs&lt;-read.csv(here(&quot;Nicole&quot;,&quot;Data&quot;,&quot;drugs.csv&quot;)) # puts the data in the correct folder and week name</code></pre>
+<pre class="r"><code>drugs&lt;-read_csv(here(&quot;Data&quot;,&quot;drugs.csv&quot;)) </code></pre>
+<pre><code>## Rows: 1988 Columns: 28
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (13): category, medicine_name, therapeutic_area, common_name, active_su...
+## dbl   (1): revision_number
+## lgl   (8): patient_safety, additional_monitoring, generic, biosimilar, condi...
+## dttm  (2): first_published, revision_date
+## date  (4): marketing_authorisation_date, date_of_refusal_of_marketing_author...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>fruits &lt;- read_csv(here(&quot;Data&quot;,&quot;fruits_with_dupes.csv&quot;)) </code></pre>
+<pre><code>## Rows: 34 Columns: 4
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (2): fruit, inside_color
+## dbl (2): size_cm, rating
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <hr />
 <hr />
 </div>
@@ -474,19 +512,13 @@ Tabyl.</p>
 <div id="here-we-will-only-be-making-one-way-and-two-way-tabyls." class="section level1">
 <h1><em>Here we will only be making One-Way and Two-Way
 Tabyls.</em></h1>
-<div id="load-your-libraries-read-in-the-data-drugs.csv" class="section level3">
-<h3>Load Your Libraries &amp; Read in the Data (drugs.csv)</h3>
-<pre class="r"><code># LOAD THE DATA
-drugs&lt;-read.csv(here(&quot;Nicole&quot;,&quot;Data&quot;,&quot;drugs.csv&quot;)) # put the data in the correct folder and week name</code></pre>
-</div>
 <div id="lets-make-a-one-way-tabyl" class="section level3">
 <h3><strong>Let’s Make a One-Way Tabyl</strong></h3>
 <ul>
 <li>Tabulating one variable is the simplest kind of tabyl:</li>
 <li>Let’s choose <strong>category</strong> as our variable</li>
 </ul>
-<pre class="r"><code>library(janitor)
-tabyl1 &lt;- drugs %&gt;%
+<pre class="r"><code>tabyl1 &lt;- drugs %&gt;%
   
    tabyl(category) # only inputting one variable into a tabyl, percentage will be given  alongside with how many times that category was recorded
 
@@ -503,11 +535,9 @@ wide form we only need to make a 2 way tabyl</li>
 <li>Let’s use the variables <strong>category</strong> and
 <strong>decision_date</strong></li>
 </ul>
-<pre class="r"><code># load the library
-library(janitor)
-# filter the data
+<pre class="r"><code># filter the data
 drugs &lt;- drugs %&gt;%
-   filter(decision_date&gt;&quot;2023&quot;) # only want the dates from 2023 and onwards
+   dplyr::filter(decision_date&gt;=&quot;2023-01-01&quot;) # only want the dates from 2023 and onwards
 t2 &lt;- drugs %&gt;%
   tabyl(category, decision_date) # There are only 2 categories: human and veterinary; dates have been filtered out to only show 2023 dates
 
@@ -653,15 +683,7 @@ words by an underscore (Ex. <em>birth date (2000)</em> to
 </ol>
 <div id="lets-code-to-see-how-it-works" class="section level2">
 <h2>Let’s code to see how it works!</h2>
-<p><strong>First, load the libraries</strong></p>
-<pre class="r"><code>library(tidyverse)
-library(here)
-library(tidyr)
-library(dplyr)
-library(janitor)
-library(palmerpenguins)</code></pre>
-<p><strong>Now let’s create a dirty data.frame, <em>df_1</em>
-</strong></p>
+<p><strong>Let’s create a dirty data.frame, <em>df_1</em> </strong></p>
 <pre class="r"><code>df_1 &lt;- as.data.frame(matrix(ncol = 6)) # creates a new data.frame named df_1 which has 6 columns
 names(df_1) &lt;- c(&quot;firstName&quot;, &quot;age?!&quot;, &quot;sleep %&quot;,
                     &quot;city&quot;, &quot;city&quot;, &quot;birth date (2000)&quot;) # gives names to each of the 6 columns in order of the input
@@ -688,41 +710,6 @@ data.frame and run it.</p>
 one-to-one relationships with each other.</p>
 <p>We don’t have to load any extra libraries for this function. So,
 let’s move on to <strong>loading the data.</strong></p>
-<pre class="r"><code># Read and View the data
-
-drugs &lt;- read_csv(here(&quot;Lipi&quot;,&quot;Data&quot;,&quot;drugs.csv&quot;))
-glimpse(drugs)</code></pre>
-<pre><code>## Rows: 1,988
-## Columns: 28
-## $ category                                    &lt;chr&gt; &quot;human&quot;, &quot;human&quot;, &quot;human&quot;,…
-## $ medicine_name                               &lt;chr&gt; &quot;Adcetris&quot;, &quot;Nityr&quot;, &quot;Ebva…
-## $ therapeutic_area                            &lt;chr&gt; &quot;Lymphoma, Non-Hodgkin;  H…
-## $ common_name                                 &lt;chr&gt; &quot;brentuximab vedotin&quot;, &quot;ni…
-## $ active_substance                            &lt;chr&gt; &quot;brentuximab vedotin&quot;, &quot;ni…
-## $ product_number                              &lt;chr&gt; &quot;002455&quot;, &quot;004582&quot;, &quot;00457…
-## $ patient_safety                              &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE…
-## $ authorisation_status                        &lt;chr&gt; &quot;authorised&quot;, &quot;authorised&quot;…
-## $ atc_code                                    &lt;chr&gt; &quot;L01XC12&quot;, &quot;A16AX04&quot;, NA, …
-## $ additional_monitoring                       &lt;lgl&gt; FALSE, FALSE, TRUE, TRUE, …
-## $ generic                                     &lt;lgl&gt; FALSE, TRUE, FALSE, FALSE,…
-## $ biosimilar                                  &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE…
-## $ conditional_approval                        &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE…
-## $ exceptional_circumstances                   &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE,…
-## $ accelerated_assessment                      &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE…
-## $ orphan_medicine                             &lt;lgl&gt; TRUE, FALSE, TRUE, FALSE, …
-## $ marketing_authorisation_date                &lt;date&gt; 2012-10-25, 2018-07-26, 2…
-## $ date_of_refusal_of_marketing_authorisation  &lt;date&gt; NA, NA, NA, NA, NA, NA, N…
-## $ marketing_authorisation_holder_company_name &lt;chr&gt; &quot;Takeda Pharma A/S&quot;, &quot;Cycl…
-## $ pharmacotherapeutic_group                   &lt;chr&gt; &quot;Antineoplastic agents&quot;, &quot;…
-## $ date_of_opinion                             &lt;date&gt; 2012-07-19, 2018-05-31, 2…
-## $ decision_date                               &lt;date&gt; 2022-11-17, 2023-03-10, 2…
-## $ revision_number                             &lt;dbl&gt; 34, 4, 2, 3, 30, 24, 4, 18…
-## $ condition_indication                        &lt;chr&gt; &quot;Hodgkin lymphomaAdcetris …
-## $ species                                     &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA…
-## $ first_published                             &lt;dttm&gt; 2018-07-25 13:58:00, 2018…
-## $ revision_date                               &lt;dttm&gt; 2023-03-13 11:52:00, 2023…
-## $ url                                         &lt;chr&gt; &quot;https://www.ema.europa.eu…</code></pre>
-<pre class="r"><code>View(drugs)</code></pre>
 <p><strong>Now let’s call <em>get_one_to_one()</em> function to show us
 1:1 relationship between different columns</strong></p>
 <p>One liner code for this function is to call the function and enter
@@ -744,10 +731,9 @@ which is all the rows and columns of the data</li>
 ## [2] &quot;patient_safety&quot;                            
 ## [3] &quot;authorisation_status&quot;                      
 ## [4] &quot;biosimilar&quot;                                
-## [5] &quot;conditional_approval&quot;                      
-## [6] &quot;accelerated_assessment&quot;                    
-## [7] &quot;date_of_refusal_of_marketing_authorisation&quot;
-## [8] &quot;species&quot;                                   
+## [5] &quot;accelerated_assessment&quot;                    
+## [6] &quot;date_of_refusal_of_marketing_authorisation&quot;
+## [7] &quot;species&quot;                                   
 ## 
 ## [[2]]
 ##  [1] &quot;medicine_name&quot;                              
@@ -763,6 +749,9 @@ which is all the rows and columns of the data</li>
 ## [11] &quot;url&quot;                                        
 ## 
 ## [[3]]
+## [1] &quot;exceptional_circumstances&quot; &quot;orphan_medicine&quot;          
+## 
+## [[4]]
 ## [1] &quot;marketing_authorisation_date&quot; &quot;date_of_opinion&quot;             
 ## [3] &quot;decision_date&quot;                &quot;first_published&quot;             
 ## [5] &quot;revision_date&quot;</code></pre>
@@ -772,6 +761,7 @@ because it is basically comparing the columns and not the rows.</p>
 <p><strong>Example 2: All the rows and first 5 columns of data.frame
 [a=blank and b=1:5]</strong></p>
 <pre class="r"><code>get_one_to_one(drugs[,1:5]) # shows relation between all the rows and first 5 columns</code></pre>
+<pre><code>## No columns in `drugs[, 1:5]` map to each other</code></pre>
 <pre><code>## list()</code></pre>
 <p>No output :( This means we must enter a <em>specific value for “rows,
 a”</em>.</p>
@@ -784,7 +774,15 @@ a”</em>.</p>
 <p><strong>Example 4: All the rows and all the columns of data.frame
 [a=blank and b=blank]</strong></p>
 <pre class="r"><code>get_one_to_one(drugs[,]) # shows relation between all the rows and all the columns</code></pre>
-<pre><code>## list()</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;category&quot; &quot;species&quot; 
+## 
+## [[2]]
+## [1] &quot;medicine_name&quot;  &quot;product_number&quot; &quot;revision_date&quot;  &quot;url&quot;           
+## 
+## [[3]]
+## [1] &quot;marketing_authorisation_date&quot; &quot;decision_date&quot;               
+## [3] &quot;first_published&quot;</code></pre>
 <p>No output :( This means we need to tell R the <strong>specific rows
 (a) and columns (b)</strong> between which we want to explore 1:1
 relationship.</p>
@@ -940,31 +938,12 @@ accidentally copy &amp; pasted it twice</strong></li>
 <p>The <strong>Janitor</strong> package has a useful function called
 <strong><em>get_dupes()</em></strong> that identifies &amp; returns
 duplicates for you.</p>
-<p>To demonstrate this, let’s load in the <em>fruits_with_dupes</em>
-data.</p>
-<pre class="r"><code># load data
-fruits &lt;- read_csv(here(&quot;Marisa&quot;,&quot;Data&quot;,&quot;fruits_with_dupes.csv&quot;))
-
-# look at first 10 lines
-head(fruits,10)</code></pre>
-<pre><code>## # A tibble: 10 × 4
-##    fruit      inside_color size_cm rating
-##    &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt;  &lt;dbl&gt;
-##  1 apple      light yellow     7.8   8.75
-##  2 orange     orange           7.7   8.5 
-##  3 pineapple  yellow          30     7.75
-##  4 lime       green            5     9.5 
-##  5 lemon      yellow           8.5   8.5 
-##  6 strawberry red              2.5   9.25
-##  7 mango      orange           9     9   
-##  8 peaches    orange           7.5   8.5 
-##  9 coconut    white           22     7.25
-## 10 cranberry  red              2     7</code></pre>
-<p>Now let’s ask Janitor to get duplicates for us!</p>
+<p>Let’s ask Janitor to get duplicates for us!</p>
 <p>You can input the data within the arguments of the function, or pipe
 to the function from the data.</p>
 <pre class="r"><code># Returns exact duplicates from your data
 get_dupes(fruits)</code></pre>
+<pre><code>## No variable names specified - using all columns.</code></pre>
 <pre><code>## # A tibble: 15 × 5
 ##    fruit      inside_color size_cm rating dupe_count
 ##    &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt;  &lt;dbl&gt;      &lt;int&gt;
@@ -1075,61 +1054,51 @@ would output 3 and 1.</p>
 <p>Pretty cool!</p>
 <div id="lets-try-with-some-actual-code-and-data-now" class="section level4">
 <h4>Let’s try with some actual code and data now :)</h4>
-<pre class="r"><code>## Load the libraries that are necessary to demonstrate this function 
-library(palmerpenguins)
-library(janitor)
-
-#top_levels(penguins$species)
+<pre class="r"><code>#top_levels(penguins$species)
 ## this is an important example to use because it shows that there is an overlap in the top and bottom groups. 
 ## So maybe we should use a different dataset with more levels...
 
 ## If you are ever unsure or forget how the package or function works, remember you can use question marks to get more information about the uses of the function. 
 ??top_levels</code></pre>
+<pre><code>## starting httpd help server ... done</code></pre>
 </div>
 </div>
 <div id="lets-try-with-a-larger-dataset" class="section level3">
 <h3>Let’s try with a larger dataset:</h3>
-<pre class="r"><code>## Read in the dataset for this example
-library(here)
-library(tidyverse)
-drugs &lt;- read_csv(here(&quot;Hannah&quot;, &quot;Data&quot;, &quot;drugs.csv&quot;))
-MCR &lt;- read_csv(here(&quot;Hannah&quot;, &quot;Data&quot;, &quot;MCR_JCU_PLoS_DataArchive_20150121.csv&quot;))
-
-## A good way to check to see if the variable you are hoping to filter has enough categories is by using the distinct() function 
+<pre class="r"><code>## A good way to check to see if the variable you are hoping to filter has enough categories is by using the distinct() function 
 drugs %&gt;% 
   distinct(category)</code></pre>
-<pre><code>## # A tibble: 2 × 1
-##   category  
-##   &lt;chr&gt;     
-## 1 human     
-## 2 veterinary</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   category
+##   &lt;chr&gt;   
+## 1 human</code></pre>
 <pre class="r"><code># so category of drug would not work here because there are only 2 
 
 # but therapeutic area may be a good example to work with 
 drugs %&gt;% 
   distinct(therapeutic_area) </code></pre>
-<pre><code>## # A tibble: 670 × 1
+<pre><code>## # A tibble: 163 × 1
 ##    therapeutic_area                                                             
 ##    &lt;chr&gt;                                                                        
-##  1 Lymphoma, Non-Hodgkin;  Hodgkin Disease                                      
-##  2 Tyrosinemias                                                                 
-##  3 Lymphoproliferative Disorders                                                
-##  4 COVID-19 virus infection                                                     
-##  5 Arthritis, Psoriatic;  Psoriasis;  Spondylitis, Ankylosing                   
-##  6 Thyroid Neoplasms                                                            
-##  7 Arthritis, Psoriatic;  Arthritis, Juvenile Rheumatoid;  Arthritis, Rheumatoi…
-##  8 Arthritis, Rheumatoid                                                        
-##  9 Sleep Initiation and Maintenance Disorders                                   
-## 10 Lens Implantation, Intraocular;  Pain, Postoperative                         
-## # … with 660 more rows</code></pre>
+##  1 Tyrosinemias                                                                 
+##  2 Lymphoproliferative Disorders                                                
+##  3 COVID-19 virus infection                                                     
+##  4 Arthritis, Psoriatic;  Psoriasis;  Spondylitis, Ankylosing                   
+##  5 Thyroid Neoplasms                                                            
+##  6 Arthritis, Psoriatic;  Arthritis, Juvenile Rheumatoid;  Arthritis, Rheumatoi…
+##  7 Arthritis, Rheumatoid                                                        
+##  8 Sleep Initiation and Maintenance Disorders                                   
+##  9 Lens Implantation, Intraocular;  Pain, Postoperative                         
+## 10 Schizophrenia;  Bipolar Disorder                                             
+## # … with 153 more rows</code></pre>
 <pre class="r"><code>#top_levels(drugs$therapeutic_area)
 ## oops not labeled as a factor ... how do we change this? 
 ## You HAVE to do it within the line of code for top_levels --&gt; if you do it before in a separate line of code, it will not work :/ 
 top_levels(as.factor(drugs$therapeutic_area), 3) ##we can also specify if we want to show NAs or not </code></pre>
-<pre><code>##      as.factor(drugs$therapeutic_area)    n     percent
-##         Abdominal Neoplasms, Achond...    3 0.001761597
-##  &lt;&lt;&lt; Middle Group (663 categories) &gt;&gt;&gt; 1697 0.996476806
-##         Wounds and Injuries;  Breas...    3 0.001761597</code></pre>
+<pre><code>##      as.factor(drugs$therapeutic_area)   n    percent
+##         Acute Coronary Syndrome;  V...   3 0.01219512
+##  &lt;&lt;&lt; Middle Group (157 categories) &gt;&gt;&gt; 240 0.97560976
+##         Wet Macular Degeneration;  ...   3 0.01219512</code></pre>
 </div>
 <div id="what-is-the-output" class="section level3">
 <h3>What is the output?</h3>

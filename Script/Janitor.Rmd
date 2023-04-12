@@ -8,9 +8,11 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,
-                      warning = FALSE,
-                      message =FALSE)
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = TRUE,
+	warning = TRUE
+)
 ```
 ## Janitor package
 **Data cleaning and manipulation using Janitor package in R**
@@ -32,7 +34,7 @@ The functions we will focus on today are:
 
 ### Libraries
 These are the libraries we will be using:
-```{r}
+```{r message=TRUE, warning=TRUE}
 # Load libraries
 library(tidyverse)
 library(here)
@@ -41,24 +43,21 @@ library(janitor)
 ```
 
 ### Data
-Please load in the following data sets:
+Please load in the following data sets in the correct folder:
 
 * Drug data from Tidy Tuesday
 
 * Fruits_with_dupes data
 
-
 ```{r}
-drugs<-read.csv(here("Group_3_Janitor","Data","drugs.csv")) # puts the data in the correct folder and week name
-
-
+drugs<-read_csv(here("Data","drugs.csv")) 
+fruits <- read_csv(here("Data","fruits_with_dupes.csv")) 
 ```
 
-
 _____________________________
 _____________________________
 
-### tabyl() + adorn() add-on functions
+## tabyl() + adorn() add-on functions
 
 In data science, all analysts do is basically count several things, taking into consideration many factors. Base R's table() function has many limitations when it comes to piping as it does not accept data.frame inputs or output data.frames. 
 That is why janitor is extremely useful when it comes to creating tables of count values for distinct levels of factor or character variables. Formatting is pretty difficult unlike using other software like excel or SPSS. Fortunately, janitor's function, tabyl(), makes it so much easier to organize all data.frames, inputs and outputs accordingly while following the forward pipe operator. 
@@ -67,7 +66,8 @@ Tabyl() was actually built on dplyr and tidyr packages which is aligned with the
 
 Cons: You need to filter out the data or else it will be an overwhelming block of data shown. You can only make up to a Three-Way Tabyl.
 
-### _Here we will only be making One-Way and Two-Way Tabyls._
+# _Here we will only be making One-Way and Two-Way Tabyls._
+
 
 ### **Let's Make a One-Way Tabyl**
 * Tabulating one variable is the simplest kind of tabyl:
@@ -83,15 +83,16 @@ tabyl1 <- drugs %>%
 - Instead of using dplyr::count(), followed by tidyr::pivot_wider() to wide form we only need to make a 2 way tabyl
 - Let's use the variables **category** and **decision_date**
 ```{r}
-# load the library
-library(janitor)
+
 # filter the data
 drugs <- drugs %>%
-   filter(decision_date>"2023") # only want the dates from 2023 and onwards
+   dplyr::filter(decision_date>="2023-01-01") # only want the dates from 2023 and onwards
 t2 <- drugs %>%
   tabyl(category, decision_date) # There are only 2 categories: human and veterinary; dates have been filtered out to only show 2023 dates
 
+
 t2
+
 
 ```
 
@@ -134,11 +135,11 @@ drugs %>%
 _____________________________
 _____________________________
 
-### **Function 1: clean_names()**
+## **Function 1: clean_names()**
 
 When we have data.frames with problematic variable names, we can use the function clean_names() to get a clean data.frame.
 
-### How does the function **clean_names()** work?
+# How does the function **clean_names()** work?
 
 1. Parses letter cases and separators to a consistent format. (Ex. *first_Name* to **first_name**)
 
@@ -169,9 +170,9 @@ You can input **??snakecase::to_any_case** in the console to see what other type
 
 5. Retains numerical values the way they are and separates them from words by an underscore (Ex. *birth date (2000)* to **birth_date_2000**)
 
-### Let's code to see how it works!
+## Let's code to see how it works!
 
-**Now let's create a dirty data.frame, *df_1* **
+**Let's create a dirty data.frame, *df_1* **
 
 ```{r}
 df_1 <- as.data.frame(matrix(ncol = 6)) # creates a new data.frame named df_1 which has 6 columns
@@ -181,7 +182,7 @@ View(df_1) # opens df_1
 
 ```
 
-### Awesome!
+# Awesome!
 
 **Finally, use the function *clean_names()* to get a data.frame with clean names**
 
@@ -193,13 +194,14 @@ df_1 %>%
 ```
 
 
-### **Function 2: get_one_to_one()**
+# **Function 2: get_one_to_one()**
 
-### How does the function **get_one_to_one()** work?
+# How does the function **get_one_to_one()** work?
 
 This function shows which, if any, columns in a data.frame have one-to-one relationships with each other.
 
 We don't have to load any extra libraries for this function. So, let's move on to **loading the data.**
+
 
 **Now let's call *get_one_to_one()* function to show us 1:1 relationship between different columns**
 
@@ -252,7 +254,7 @@ No output :(
 This means we need to tell R the **specific rows (a) and columns (b)** between which we want to explore 1:1 relationship.
 
 
-### Think, Pair and Share 
+# Think, Pair and Share 
 
 Use different data (ex. penguins data) to explore get_one_to_one() function. 
 
@@ -264,9 +266,9 @@ get_one_to_one(penguins[4:6,])
 _____________________________
 _____________________________
 
-### Function: get_dupes()
+## Function: get_dupes()
 
-### Introduction:
+#### Introduction:
 One issue that we sometimes run into when working with data is the presence of duplicate pieces of data, or "dupes".  This means that the **same information** is represented **more than once** in the same dataset.
 
 Below is an example of data, with duplicates highlighted in red.
@@ -275,7 +277,7 @@ Below is an example of data, with duplicates highlighted in red.
 
 ___________
 
-### How do dupes happen?
+#### How do dupes happen?
 A few ways that duplicates can happen are via human error:
 
  * **User inputs data that is already there, i.e. they accidentally copy & pasted it twice**
@@ -316,31 +318,12 @@ A few ways that duplicates can happen are via human error:
 
 ________
 
-### What can I do about dupes?
+#### What can I do about dupes?
 The first step in dealing with dupes is to identify them.
 
 The **Janitor** package has a useful function called **_get_dupes()_** that identifies & returns duplicates for you.
 
-```{r include = FALSE}
-
-# load libraries
-library(tidyverse)
-library(here)
-library(janitor)
-
-```
-
-To demonstrate this, let's load in the _fruits_with_dupes_ data.
-```{r, message = FALSE}
-# load data
-fruits <- read_csv(here("Marisa","Data","fruits_with_dupes.csv"))
-
-# look at first 10 lines
-head(fruits,10)
-
-```
-
-Now let's ask Janitor to get duplicates for us!
+Let's ask Janitor to get duplicates for us!
 
 You can input the data within the arguments of the function, or pipe to the function from the data.
 
@@ -380,7 +363,7 @@ As you can see we have a few examples of non-exact duplicates here:
 Since **_get_dupes_** returns only _exact duplicates_, we wouldn't be able to return non-exact duplicates without the help of other functions and/or packages.
 
 _______
-### For advanced duplicate searches:
+#### For advanced duplicate searches:
 For a small & manageable list where we are familiar with all the data entries (like the fruits data), we may be able to find most of the duplicates using extra functions that can filter for similarly-spelled words.
 
 However, if we had a very large data set with data entries that we were mostly unfamiliar with, we would have no way of knowing if we managed to find every single possible misspelling/variation of a word, and it would be very difficult to find these types of duplicates without some techniques that are far more advanced than our current level of coding, and beyond the scope of this class.
@@ -390,7 +373,7 @@ _____________________________
 _____________________________
 
 
-### Introduction to to_levels():  
+### Introduction:  
 -  In this section, we are going to learn how to use the top_levels() function in the janitor package. Have you ever had a large dataset and wanted to be able to look at which values or variable are most frequent? 
 -  Well, using **top_levels()** can help with that! 
 
@@ -402,13 +385,9 @@ When you use the top_level() function, R would return and tell you that the valu
 
 Pretty cool! 
 
-### Let's try with some actual code and data now :) 
+#### Let's try with some actual code and data now :) 
 
 ```{r, warning=FALSE}
-## Load the libraries that are necessary to demonstrate this function 
-library(palmerpenguins)
-library(janitor)
-
 #top_levels(penguins$species)
 ## this is an important example to use because it shows that there is an overlap in the top and bottom groups. 
 ## So maybe we should use a different dataset with more levels...
@@ -419,12 +398,6 @@ library(janitor)
 
 ### Let's try with a larger dataset:
 ```{r}
-## Read in the dataset for this example
-library(here)
-library(tidyverse)
-drugs <- read_csv(here("Hannah", "Data", "drugs.csv"))
-MCR <- read_csv(here("Hannah", "Data", "MCR_JCU_PLoS_DataArchive_20150121.csv"))
-
 ## A good way to check to see if the variable you are hoping to filter has enough categories is by using the distinct() function 
 drugs %>% 
   distinct(category)
