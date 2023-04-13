@@ -132,7 +132,7 @@ drugs %>%
   adorn_ns("rear")%>% # can be moved to the front or the back of the percentage, shows you how many times that category was brought up on that date
   adorn_title(placement = "top", row_name = "Category", col_name = "Decision Date") # changes the name of your row and column names
 ```
-[Click Here to Learn More About Tabyl()](https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html)
+[Click Here to Learn More About tabyl() and adorn()](https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html)
 
 ____________________________________________________________________________
 
