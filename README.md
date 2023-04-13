@@ -45,6 +45,7 @@ In the real world, most data sets are not as organized as we would like them to 
 3. Load Your Libraries
       - library(tidyverse)
       - library(here)
+      - library(palmerpenguins)
       - library(janitor)
 
 
